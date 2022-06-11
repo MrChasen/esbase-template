@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "lib": [
+      "dom"
+    ],
+    "jsx": "preserve",
+    "module": "es2015",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "extends": "",
+  "files": [],
+  "compileOnSave": true,
+  "include": ["**/*"],
+  "exclude": ["node_modules"]
+}

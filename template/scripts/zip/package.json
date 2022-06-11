@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "zip": "node ./dev/zip.js"
+  },
+  "devDependencies": {
+    "adm-zip": "^0.5.9",
+    "del": "^6.0.0"
+  }
+}
