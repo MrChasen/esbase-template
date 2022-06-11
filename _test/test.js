@@ -2,7 +2,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const minimist = require('minimist');
 const prompts = require('prompts');
-const renderTemplate = require('../utils/renderTemplate.js');
+const renderTemplate = require('../utils/renderTemplate');
 
 async function test() {
   const argv = minimist(process.argv.slice(2), {
@@ -95,8 +95,8 @@ async function test() {
     }
     if (needsRouter || needsToolkit) {
       if (needsRouter && needsToolkit) {
-        render('code/typescript-router-toolkit');
-        render('entryConfig/typescript-router-toolkit');
+        render('code/typescript-toolkit-router');
+        render('entryConfig/typescript-toolkit-router');
       } else if (needsRouter) {
         render('code/typescript-router');
         render('entryConfig/typescript-router');
@@ -115,8 +115,8 @@ async function test() {
     }
     if (needsRouter || needsToolkit) {
       if (needsRouter && needsToolkit) {
-        render('code/router-toolkit');
-        render('entryConfig/router-toolkit');
+        render('code/toolkit-router');
+        render('entryConfig/toolkit-router');
       } else if (needsRouter) {
         render('code/router');
         render('entryConfig/router');

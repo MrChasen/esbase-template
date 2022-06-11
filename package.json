@@ -5,7 +5,9 @@
   "scripts": {
     "test": "node _test/test.js app",
     "test_ts": "node _test/test.js app --ts",
-    "eslint": "eslint --ext .js"
+    "eslint": "eslint --ext .js",
+    "lint-staged": "lint-staged",
+    "prepare": "husky install"
   },
   "files": [
     "template",
@@ -31,8 +33,15 @@
     "prompts": "^2.4.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^16.2.4",
+    "@commitlint/config-conventional": "^16.2.4",
     "eslint": "^7.1.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.2"
+    "eslint-plugin-import": "^2.25.2",
+    "husky": "^7.0.4",
+    "lint-staged": "^13.0.1"
+  },
+  "lint-staged": {
+    "**/*.js": "npm run eslint"
   }
 }
