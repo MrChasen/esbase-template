@@ -1,16 +1,16 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   increment, decrement, unshiftItem, shiftItem,
 } from './model/actions';
 import reactImg from './images/react-img.svg';
-import './global-css/main.scss';
+import './src/global-css/main.scss';
 
-function App() {
+const App:React.FC = () => {
   const dispatch = useDispatch();
   const { count, title } = useSelector((state) => state.counter);
   const testArr = useSelector((state) => state.testArr);
+
   return (
     <div styleName="app">
       <div styleName="img-box">
@@ -44,12 +44,12 @@ function App() {
         />
         <div styleName="array-box">
           {
-              testArr.map((item) => <li key={item}>{item}</li>)
+              testArr.map((item :any) => <li>{item}</li>)
           }
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default App;

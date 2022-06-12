@@ -22,6 +22,13 @@ async function test() {
     fs.mkdirsSync(root);
   }
 
+  const packageJson = {
+    name: targetDir,
+    version: '0.0.1',
+  };
+  const packageJsonPath = path.join(root, 'package.json');
+  fs.outputFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+
   let result = {};
   try {
     result = await prompts(
@@ -30,14 +37,14 @@ async function test() {
           name: 'needsTypeScript',
           type: () => (ts ? null : 'toggle'),
           message: 'Add TypeScript?',
-          initial: false,
+          initial: true,
           active: 'Yes',
           inactive: 'No',
         },
         {
           name: 'needsRouter',
           type: 'toggle',
-          message: 'Add React Router for Single Page Application development?',
+          message: 'Add React Router for Application development?',
           initial: true,
           active: 'Yes',
           inactive: 'No',
@@ -45,15 +52,7 @@ async function test() {
         {
           name: 'needsToolkit',
           type: 'toggle',
-          message: 'Add React Toolkit for Single Page Application development?',
-          initial: true,
-          active: 'Yes',
-          inactive: 'No',
-        },
-        {
-          name: 'needsStylelint',
-          type: 'toggle',
-          message: 'Add Stylelint for code quality?',
+          message: 'Add React Toolkit for Application development?',
           initial: true,
           active: 'Yes',
           inactive: 'No',
@@ -66,67 +65,60 @@ async function test() {
           active: 'Yes',
           inactive: 'No',
         },
-
+        {
+          name: 'needsStylelint',
+          type: 'toggle',
+          message: 'Add Stylelint for Scss code quality?',
+          initial: true,
+          active: 'Yes',
+          inactive: 'No',
+        },
       ],
     );
   } catch (e) {
     console.log(e);
     process.exit(1);
   }
-  console.log(result, '<___result');
-  console.log(ts, '<___ts');
   const {
-    needsEslint, needsToolkit, needsRouter, needsTypeScript,
+    needsEslint, needsToolkit, needsRouter, needsTypeScript, needsStylelint,
   } = result;
   const templateRoot = path.resolve(__dirname, '../', 'template');
-  console.log(templateRoot, '<___templateRoot');
   const render = function render(templateName) {
     const templateDir = path.resolve(templateRoot, templateName);
     renderTemplate(templateDir, root);
   };
+  const codeType = (ts || needsTypeScript) ? 'typescript-' : '';
+  const fileIndex = (ts || needsTypeScript) ? 'tsx' : 'jsx';
   render('base');
   render('scripts/zip');
+  render(`babel/babel-${fileIndex}`);
+  render(`webpack/webpack-${fileIndex}`);
+
+  if (needsToolkit || needsRouter) {
+    if (needsToolkit && needsRouter) {
+      render(`code/${codeType}toolkit-router`);
+      render(`entryConfig/${codeType}toolkit-router`);
+    } else if (needsRouter) {
+      render(`code/${codeType}router`);
+      render(`entryConfig/${codeType}router`);
+    } else if (needsToolkit) {
+      render(`code/${codeType}toolkit`);
+      render(`entryConfig/${codeType}toolkit`);
+    } else {
+      render(`code/${codeType}default`);
+    }
+  }
+
   if (ts || needsTypeScript) {
     render('tsconfig');
-    render('babel/babel-tsx');
-    render('webpack/webpack-tsx');
-    if (needsEslint) {
-      render('eslint/eslint-tsx');
-    }
-    if (needsRouter || needsToolkit) {
-      if (needsRouter && needsToolkit) {
-        render('code/typescript-toolkit-router');
-        render('entryConfig/typescript-toolkit-router');
-      } else if (needsRouter) {
-        render('code/typescript-router');
-        render('entryConfig/typescript-router');
-      } else if (needsToolkit) {
-        render('code/typescript-toolkit');
-        render('entryConfig/typescript-toolkit');
-      }
-    } else {
-      render('code/typescript-default');
-    }
-  } else {
-    render('babel/babel-jsx');
-    render('webpack/webpack-jsx');
-    if (needsEslint) {
-      render('eslint/eslint-tsx');
-    }
-    if (needsRouter || needsToolkit) {
-      if (needsRouter && needsToolkit) {
-        render('code/toolkit-router');
-        render('entryConfig/toolkit-router');
-      } else if (needsRouter) {
-        render('code/router');
-        render('entryConfig/router');
-      } else if (needsToolkit) {
-        render('code/toolkit');
-        render('entryConfig/toolkit');
-      }
-    } else {
-      render('code/default');
-    }
+  }
+
+  if (needsEslint) {
+    render(`eslint/eslint-${fileIndex}`);
+  }
+
+  if (needsStylelint) {
+    render('stylelint/stylelint-scss');
   }
 }
 
