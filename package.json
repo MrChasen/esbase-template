@@ -1,6 +1,6 @@
 {
   "name": "esbase-template",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.01",
   "description": "Create a React template.",
   "scripts": {
     "test": "node _test/test.js app",
@@ -11,7 +11,8 @@
   },
   "files": [
     "template",
-    "scripts"
+    "scripts",
+    "utils"
   ],
   "repository": {
     "type": "git",

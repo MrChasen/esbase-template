@@ -14,7 +14,6 @@ async function test() {
   const { ts } = argv;
   const targetDir = argv._[0];
   const root = path.resolve(__dirname, targetDir);
-  console.log(root);
 
   if (fs.pathExistsSync(root)) {
     fs.removeSync(root);

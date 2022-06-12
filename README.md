@@ -1,2 +1,15 @@
 # esbase-template
-Create a React template.
+## Usage
+
+```bash
+npm run test 
+```
+
+or
+
+```bash
+npm run test_ts
+```
+
+
+
